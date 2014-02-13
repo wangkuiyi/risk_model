@@ -32,7 +32,7 @@ func main() {
 
 	lr, id2f := train(records, iusers, match)
 	printModel(lr, id2f)
-	fmt.Printf("%v\n", match)
+	printMatch(match, records)
 }
 
 func train(records []creditRecord, iusers []internetUser, match [][]float64) (*lr.LogisticRegression, []string) {
@@ -142,5 +142,11 @@ func updateMatch(lr *lr.LogisticRegression, records []creditRecord, protos []*he
 func printModel(lr *lr.LogisticRegression, id2f []string) {
 	for f, g := range lr.Model {
 		fmt.Printf("%s : %f\n", id2f[f], g)
+	}
+}
+
+func printMatch(match [][]float64, records []creditRecord) {
+	for borrower, dist := range match {
+		fmt.Printf("%s : %v\n", records[borrower].borrower, dist)
 	}
 }
