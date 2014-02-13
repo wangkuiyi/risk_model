@@ -59,10 +59,10 @@ As a tutorial, the introduced model is not a sophisticated one; instead, it is s
 <table>
 <tr>
 <td width="50%">
-Currently, the tutorial is in Chinese: <a href="https://github.com/wangkuiyi/risk_model/blob/master/tutorial/tutorial-cn.pdf">download here</a>
+Currently, the tutorial is in Chinese: <a href="https://github.com/wangkuiyi/risk_model/blob/master/tutorial/tutorial-cn.pdf?raw=true">download here</a>
 </td>
 <td>
-目前这个tutorial只有中文版。可以点<a href="https://github.com/wangkuiyi/risk_model/blob/master/tutorial/tutorial-cn.pdf">这里</a>下载。
+目前这个tutorial只有中文版。可以点<a href="https://github.com/wangkuiyi/risk_model/blob/master/tutorial/tutorial-cn.pdf?raw=true">这里</a>下载。
 </td>
 </tr>
 </table>
