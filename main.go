@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	hector "github.com/xlvector/hector/core"
-	hector "github.com/xlvector/hector/lr"
+	"github.com/xlvector/hector/lr"
 	"math"
 	"math/rand"
 )
@@ -47,8 +47,6 @@ func train(records []creditRecord, iusers []internetUser, match [][]float64) (*l
 		lr.Init(map[string]string{"learning-rate": "0.1", "regularization": "1.0", "steps": "20"})
 		lr.Train(dataset)
 
-		printModel(lr, id2f)	// debug
-
 		// E-step:
 		updateMatch(lr, records, protos, match)
 	}
@@ -56,13 +54,13 @@ func train(records []creditRecord, iusers []internetUser, match [][]float64) (*l
 	return lr, id2f
 }
 
-func constructFeatureVectors(iusers []internetUser) ([]*core.Sample, []string) {
-	protos := make([]*core.Sample, len(iusers))
+func constructFeatureVectors(iusers []internetUser) ([]*hector.Sample, []string) {
+	protos := make([]*hector.Sample, len(iusers))
 	f2id := make(map[string]int)
 	id2f := make([]string, 0)
 
 	for i, u := range iusers {
-		protos[i] = core.NewSample()
+		protos[i] = hector.NewSample()
 
 		for _, f := range u {
 			id, exists := f2id[f]
@@ -71,14 +69,14 @@ func constructFeatureVectors(iusers []internetUser) ([]*core.Sample, []string) {
 				id2f = append(id2f, f)
 				f2id[f] = id
 			}
-			protos[i].AddFeature(core.Feature{int64(id), 1.0})
+			protos[i].AddFeature(hector.Feature{int64(id), 1.0})
 		}
 	}
 	return protos, id2f
 }
 
-func constructTrainingData(records []creditRecord, borrower2iuser []int, protos []*core.Sample) *core.DataSet {
-	data := core.NewDataSet()
+func constructTrainingData(records []creditRecord, borrower2iuser []int, protos []*hector.Sample) *hector.DataSet {
+	data := hector.NewDataSet()
 	for borrower, record := range records {
 		for i := 0; i < record.borrowed; i++ {
 			s := protos[borrower2iuser[borrower]].Clone()
@@ -119,7 +117,7 @@ func sum(dist []float64) float64 {
 	return sum
 }
 
-func updateMatch(lr *lr.LogisticRegression, records []creditRecord, protos []*core.Sample, match [][]float64) {
+func updateMatch(lr *lr.LogisticRegression, records []creditRecord, protos []*hector.Sample, match [][]float64) {
 	predictions := make([]float64, len(protos))
 	for i, proto := range protos {
 		predictions[i] = lr.Predict(proto)
